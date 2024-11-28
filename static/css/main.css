@@ -154,6 +154,10 @@ main {
     animation: slideOut 0.3s ease-out forwards;
 }
 
+.badge {
+    font-size: 0.75rem;
+}
+
 @keyframes slideIn {
     from {
         transform: translateX(100%);
