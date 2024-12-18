@@ -16,14 +16,11 @@ from utils.constants import (
     REQUIRED_SMART_ORDER_FIELDS
 )
 import os
-from dotenv import load_dotenv
 import importlib
 import logging
 import traceback
 import copy
 import time
-
-load_dotenv()
 
 API_RATE_LIMIT = os.getenv("API_RATE_LIMIT", "10 per second")
 SMART_ORDER_DELAY = os.getenv("SMART_ORDER_DELAY", "0.5")
@@ -99,14 +96,16 @@ class PlaceSmartOrder(Resource):
                 executor.submit(async_log_order, 'placesmartorder', data, error_response)
                 return make_response(jsonify(error_response), 400)
 
-            # Validate action
-            if 'action' in data and data['action'] not in VALID_ACTIONS:
-                error_message = f'Invalid action. Must be one of: {", ".join(VALID_ACTIONS)}'
-                if get_analyze_mode():
-                    return make_response(jsonify(emit_analyzer_error(data, error_message)), 400)
-                error_response = {'status': 'error', 'message': error_message}
-                executor.submit(async_log_order, 'placesmartorder', data, error_response)
-                return make_response(jsonify(error_response), 400)
+            # Convert action to uppercase and validate
+            if 'action' in data:
+                data['action'] = data['action'].upper()
+                if data['action'] not in VALID_ACTIONS:
+                    error_message = f'Invalid action. Must be one of: {", ".join(VALID_ACTIONS)} (case insensitive)'
+                    if get_analyze_mode():
+                        return make_response(jsonify(emit_analyzer_error(data, error_message)), 400)
+                    error_response = {'status': 'error', 'message': error_message}
+                    executor.submit(async_log_order, 'placesmartorder', data, error_response)
+                    return make_response(jsonify(error_response), 400)
 
             # Validate price type if provided
             if 'price_type' in data and data['price_type'] not in VALID_PRICE_TYPES:

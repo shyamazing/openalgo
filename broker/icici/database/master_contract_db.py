@@ -10,10 +10,7 @@ from io import BytesIO
 from sqlalchemy import create_engine, Column, Integer, String, Float , Sequence, Index
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from dotenv import load_dotenv
 from extensions import socketio  # Import SocketIO
-
-load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')  # Replace with your database path
 
@@ -240,7 +237,8 @@ def process_icici_nfo_csv(path):
     }
 
     # Map the values
-    df['EXCHANGECODE'] = df['EXCHANGECODE'].map(mapping)
+    df['EXCHANGECODE'] = df['EXCHANGECODE'].map(mapping).fillna(df['EXCHANGECODE'])
+
 
     newdata['symbol1'] = df['EXCHANGECODE']
     # Apply the function across the DataFrame rows
@@ -421,4 +419,3 @@ def master_contract_download():
 
 def search_symbols(symbol, exchange):
     return SymToken.query.filter(SymToken.symbol.like(f'%{symbol}%'), SymToken.exchange == exchange).all()
-
