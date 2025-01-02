@@ -1,12 +1,11 @@
 # Broker Configuration
-BROKER_API_KEY = 'YOUR_BROKER_API_KEY'
-BROKER_API_SECRET = 'YOUR_BROKER_API_SECRET'
+BROKER_API_KEY = 'd8d80b19-6221-4d51-961d-d753e1b5428d'
+BROKER_API_SECRET = '712n4ph42f'
 
-REDIRECT_URL = 'http://127.0.0.1:5000/<broker>/callback'  # Change if different
+REDIRECT_URL = 'http://127.0.0.1:5000/upstox/callback'
 
 # Valid Brokers Configuration
-VALID_BROKERS = 'fivepaisa,aliceblue,angel,dhan,firstock,flattrade,fyers,icici,kotak,shoonya,upstox,zebu,zerodha'
-
+VALID_BROKERS = 'fivepaisa,aliceblue,angel,dhan,fyers,icici,kotak,shoonya,upstox,zebu,zerodha'
 
 # Security Configuration
 # IMPORTANT: Generate new random values for both keys during setup!
@@ -37,7 +36,7 @@ HOST_SERVER = 'http://127.0.0.1:5000'
 # Flask Environment - development or production
 FLASK_HOST_IP='127.0.0.1'  
 FLASK_PORT='5000'  
-FLASK_DEBUG='False' 
+FLASK_DEBUG='True' 
 FLASK_ENV='development'
 
 # OpenAlgo Rate Limit Settings
